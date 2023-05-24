@@ -94,6 +94,7 @@ abstract class BaseRepository implements IBaseRepository
             $newModel = new $this->model($input);
             $newModel->save();
         } catch (\Exception $exception) {
+            dd($exception->getMessage());
             Log::error('[Create]: ' . $exception->getMessage());
             $newModel = null;
         }

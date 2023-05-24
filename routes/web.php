@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\SocialController;
 use \App\Http\Controllers\AuthController;
 
 /*
@@ -21,5 +20,6 @@ Route::get('/', function () {
 
 
 Route::get('/', [AuthController::class, 'viewLogin'])->name('login');
-Route::get('/auth/redirect/{provider}', [SocialController::class, 'redirect'])->name('login_social');
-Route::get('/callback/{provider}', [SocialController::class, 'callback']);
+Route::get('/auth/redirect/{provider}', [AuthController::class, 'redirect'])->name('login_social');
+Route::get('/callback/{provider}', [AuthController::class, 'callback']);
+Route::post('login', [AuthController::class, 'login'])->name('login');
