@@ -1,66 +1,83 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Cách login bằng google và github
+## Bước 1: Trước tiên, chúng ta cần cài đặt 1 package đã được laravel hỗ trợ để chúng ta có thể connect tới google và github.
+composer require laravel/socialite
+## Bước 2: Tạo google app and github app
+   Trước hết, chúng ta cần phải có ID CLIENT và CLIENT SECRET:
+ - Google app: Truy cập https://console.developers.google.com/ và tạo một ứng dụng mới
+ 
+    ![image](https://github.com/longjos123/document_login/assets/74553819/520687aa-eab8-48f4-b5fa-9ea50c381896)
+    
+    Nhập tên và id cho ứng dụng.
+    
+    ![image](https://github.com/longjos123/document_login/assets/74553819/eb8e55f1-80ae-4bd2-9a87-66df266e1320)
+    
+    Kích hoạt dịch vụ Google+ API bằng cách:
+    * Nhập google+ API vào ô search
+    * Chọn mục Google+ API
+    * Ấn nút enable và chờ API được kích hoạt
+    
+    ![image](https://github.com/longjos123/document_login/assets/74553819/57d4dc50-8e7a-4bcd-b220-0d0ee6a7405a)
+    ![image](https://github.com/longjos123/document_login/assets/74553819/5a1d4f9b-e1d5-4d35-80d3-dfdc3dcd6c4a)
+    
+    Tạo chứng nhận cho API như sau:
+    * Chọn mục “Credentials” ở bên trái và chọn tab “OAuth consent screen”
+    * Chọn Email Address, nhập Product Name, và lưu lại.
+    
+    ![image](https://github.com/longjos123/document_login/assets/74553819/b42dabcd-38d5-4ab4-9833-17e7cfe7eb88)
+    
+    Chuyển sang tab Credentials.
+    * Click button “Create credentials và chọn “OAuth client ID”
+    
+    ![image](https://github.com/longjos123/document_login/assets/74553819/cf86a7ac-eb67-4983-90d8-ec6e3ca9910f)
+    
+    Phần application type chọn “Web application” (Ở đây mình sử dụng để đăng nhập cho ứng dụng web)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+    Phần “Authorized JavaScript origins” nhập tên miền của ứng dụng web
 
-## About Laravel
+    Phần “Authorized redirect URI” nhập đường dẫn của server xử lý code gửi về từ google.
+    
+    ![image](https://github.com/longjos123/document_login/assets/74553819/26fb5a71-2818-4609-8b6f-94a4b7efdc6f)
+    
+    Sau khi tạo nó sẽ hiện ra client ID và client secret
+    
+    ![image](https://github.com/longjos123/document_login/assets/74553819/2381951b-4d47-482b-a342-5e731266811e)
+    
+    Bạn cũng có thể xem lại chi tiết về client id và client secret bằng cách chọn vào tên của credential vừa tạo ở tab “Credentials”
+    
+    ![image](https://github.com/longjos123/document_login/assets/74553819/f0c7cd3a-708b-4038-97bc-39be5dbd942b)
+    ![image](https://github.com/longjos123/document_login/assets/74553819/eed354d0-0149-44a0-9c71-844b9f8e729a)
+    
+    
+- Github app: Truy cập https://github.com/settings/developers và tạo một ứng dụng mới:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+    ![image](https://github.com/longjos123/document_login/assets/74553819/731fdc9d-1701-4655-ae3a-b41515f1c2ef)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    Tại đây, thêm tên ứng dụng và chuyển hướng lại url:
+    
+    ![image](https://github.com/longjos123/document_login/assets/74553819/59db11ee-5d1d-401c-a0f7-95b7be940e76)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    Sau đó, github trả lại cho chúng ta client id và client secret như sau:
+    
+    ![image](https://github.com/longjos123/document_login/assets/74553819/950e1053-3d07-43b5-9f4c-a250689b7311)
 
-## Learning Laravel
+Sau khi tạo thành công một ứng dụng trong Google, Github và nhận thông tin đăng nhập từ bảng điều khiển của Google, Github, các ban vào file config / service.php và thêm đoạn cấu hình bên dưới:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+    - Google:
+    
+        'google' => [
+            'client_id' => 'xxxx',
+            'client_secret' => 'xxx',
+            'redirect' => 'http://127.0.0.1:8000/callback/google',
+          ], 
+          
+     - Github:
+     
+        'github' => [
+            'client_id' => 'xxxx',
+            'client_secret' => 'xxx',
+            'redirect' => 'http://127.0.0.1:8000/callback/github',
+          ],
+          
+ Tiếp tục làm theo các bước ở bài viết này nhé: https://viblo.asia/p/login-vao-ung-dung-bang-tai-khoan-google-924lJqO0ZPM
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
