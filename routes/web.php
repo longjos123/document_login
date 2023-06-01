@@ -22,4 +22,7 @@ Route::get('/', function () {
 Route::get('/', [AuthController::class, 'viewLogin'])->name('login');
 Route::get('/auth/redirect/{provider}', [AuthController::class, 'redirect'])->name('login_social');
 Route::get('/callback/{provider}', [AuthController::class, 'callback']);
-Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::post('login', [AuthController::class, 'login'])->name('login_post');
+Route::get('register', [AuthController::class, 'viewRegister'])->name('register');
+Route::post('register', [AuthController::class, 'register'])->name('register_post');
+Route::get('logout', [AuthController::class, 'logout']);

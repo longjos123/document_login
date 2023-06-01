@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterRequestForm;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Constants\UserConstant;
 use App\Repositories\UserRepository;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -51,7 +55,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         //Get data input client
-        $credentials = $request->all();
+        $credentials = $request->only(UserConstant::INPUT_EMAIL, UserConstant::INPUT_PASSWORD);
 
         //Check user and password matches with db
         if (Auth::attempt($credentials)) {
@@ -116,6 +120,45 @@ class AuthController extends Controller
         }
 
         return $user;
+    }
+
+    /**
+     * View register
+     *
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
+     */
+    public function viewRegister()
+    {
+        return view('register');
+    }
+
+    /**
+     * Post register
+     *
+     * @param RegisterRequestForm $request
+     * @return Application|\Illuminate\Foundation\Application|RedirectResponse|Redirector
+     */
+    public function register(RegisterRequestForm $request)
+    {
+        try {
+            $input = $request->only(
+                UserConstant::INPUT_NAME,
+                UserConstant::INPUT_EMAIL,
+                UserConstant::INPUT_GENDER,
+                UserConstant::INPUT_PHONE,
+            );
+
+            $input[UserConstant::INPUT_PASSWORD] = Hash::make($request->password);
+            $result = $this->userRepository->create($input);
+        } catch (\Exception $exception) {
+            Log::error('Create user: ' . $exception);
+        }
+
+        if ($result) {
+            return redirect(route('login'));
+        } else {
+            return back()->with('Register failed!');
+        }
     }
 
     /**

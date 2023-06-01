@@ -34,7 +34,7 @@
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100">
-                <form class="login100-form" method="POST" action="{{ route('login') }}">
+                <form class="login100-form" method="POST" action="{{ route('login_post') }}">
                     @csrf
                     <span class="login100-form-title p-b-43">
                         Login
@@ -59,7 +59,10 @@
                         </button>
                     </div>
 
-                    <div class="text-center p-t-46 p-b-20">
+                    <div class="text-center p-t-20">
+                        <p>Haven't registered an account yet? <a href="{{ route('register') }}" style="color: #0062cc">Register</a></p>
+                    </div>
+                    <div class="text-center p-t-5 p-b-20">
                         <span class="txt2">
                             or sign up using
                         </span>
@@ -135,11 +138,13 @@
             });
             $('.inp_change_email').on('change', function () {
                 $('#email').parent().css({"color": "", "border": ""});
+                $('#email').attr('placeholder', '');
                 $('#email').css({"color": ""});
                 $('.error_email').show();
             });
             $('.inp_change_pw').on('change', function () {
                 $('#pass').parent().css({"color": "", "border": ""});
+                $('#pass').attr('placeholder', '');
                 $('#pass').css({"color": ""});
                 $('.error_pw').show();
             })
