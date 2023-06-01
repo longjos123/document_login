@@ -25,4 +25,6 @@ Route::get('/callback/{provider}', [AuthController::class, 'callback']);
 Route::post('login', [AuthController::class, 'login'])->name('login_post');
 Route::get('register', [AuthController::class, 'viewRegister'])->name('register');
 Route::post('register', [AuthController::class, 'register'])->name('register_post');
-Route::get('logout', [AuthController::class, 'logout']);
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('home', [AuthController::class, 'index'])->name('homepage');

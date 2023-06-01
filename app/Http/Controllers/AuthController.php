@@ -37,6 +37,16 @@ class AuthController extends Controller
     }
 
     /**
+     * View homepage
+     *
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
+     */
+    public function index()
+    {
+        return view('home');
+    }
+
+    /**
      * View login
      *
      * @return Application|Factory|View|\Illuminate\Foundation\Application
@@ -59,7 +69,7 @@ class AuthController extends Controller
 
         //Check user and password matches with db
         if (Auth::attempt($credentials)) {
-            return redirect()->to('/home')->withSuccess('Logged in successfully!');
+            return redirect(route('homepage'));
         }
 
         return redirect(route('login'))->withSuccess('Email or password is incorrect!');
@@ -88,7 +98,7 @@ class AuthController extends Controller
         $user = $this->createUser($getInfo, $provider);
         Auth::login($user);
 
-        return redirect()->to('/home');
+        return redirect()->route('homepage');
     }
 
     /**
