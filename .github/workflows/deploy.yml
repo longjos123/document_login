@@ -1,0 +1,12 @@
+name: Sample Github CD for Bizfly App Engine
+
+on:
+  push:
+    branches: [ "dev" ]  # Sẽ kích hoạt jobs ở dưới khi có sự kiện push lên branch master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Sử dụng runner chạy HĐH Ubuntu
+    steps:
+      - name: Trigger deploy in Bizfly App Engine
+        run: curl -X POST ${{ secrets.WEBHOOK_URL }} # Thực hiện gửi request với phương thức POST bằng curl
