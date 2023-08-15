@@ -31,12 +31,13 @@ use \App\Constants\UserConstant;
 
 <body>
 <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
-    <div class="wrapper wrapper--w680">
+    <div class="wrapper wrapper--w960">
         <div class="card card-4">
             <div class="card-body justify-content-center">
-                <h2 class="title text-center">Home page</h2>
+                <h2 class="title text-center">Create NFT</h2>
                 <div class="d-flex justify-content-center">
-                    <a type="button" class="btn btn-danger text-white" href="{{ route('logout') }}">Logout</a>
+                    <input class="form-control-file form-control" type="text" />
+                    <a type="button" class="btn btn-success text-white ml-3" href="">Mint</a>
                 </div>
             </div>
         </div>

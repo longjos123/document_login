@@ -155,7 +155,7 @@ class AuthController extends Controller
                 UserConstant::INPUT_NAME,
                 UserConstant::INPUT_EMAIL,
                 UserConstant::INPUT_GENDER,
-                UserConstant::INPUT_PHONE,
+                UserConstant::INPUT_PHONE
             );
 
             $input[UserConstant::INPUT_PASSWORD] = Hash::make($request->password);
